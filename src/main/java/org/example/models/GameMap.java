@@ -17,6 +17,38 @@ public class GameMap {
         this.countEachEntity = countEachEntity;
     }
 
+    public Set<Cordinate> getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Set<Cordinate> coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getCountEachEntity() {
+        return countEachEntity;
+    }
+
+    public void setCountEachEntity(int countEachEntity) {
+        this.countEachEntity = countEachEntity;
+    }
+
     //Генерирует координаты Х и У каждой сущности
     public void generateCoordinates() {
         Map<Integer, TypeEntity> numsEntity = createNumsEntity();
@@ -54,7 +86,7 @@ public class GameMap {
     }
 
     //Генерирует номера, проверяя уникальность
-    public Set<Integer> generateNums () {
+    private Set<Integer> generateNums () {
         Random random = new Random();
         Set<Integer> nums = new HashSet<>();
         int countFields = width * height;
@@ -70,7 +102,7 @@ public class GameMap {
     }
 
     //Получает рандомный номер
-    public int getRandomNum(Random random, int countFields) {
+    private int getRandomNum(Random random, int countFields) {
         return random.nextInt(countFields + 1);
     }
 
