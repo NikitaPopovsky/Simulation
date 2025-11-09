@@ -15,16 +15,16 @@ public class Cordinate {
     }
 
     private int calculateX(int widthMap, int numPosition) {
-        if (numPosition % widthMap != 0) {
-            return numPosition % widthMap;
+        if (numPosition % widthMap == 0) {
+            return widthMap;
         } else {
-            return numPosition % widthMap + 1;
+            return numPosition % widthMap;
         }
 
     }
 
     private int calculateY(int widthMap, int numPosition) {
-        if (numPosition % widthMap != 0) {
+        if (numPosition % widthMap == 0) {
             return numPosition / widthMap;
         } else {
             return numPosition / widthMap + 1;
