@@ -14,12 +14,22 @@ public class Cordinate {
         this.y = calculateY(widthMap, numPosition);
     }
 
-    private int calculateY(int widthMap, int numPosition) {
-        return numPosition % widthMap;
+    private int calculateX(int widthMap, int numPosition) {
+        if (numPosition % widthMap != 0) {
+            return numPosition % widthMap;
+        } else {
+            return numPosition % widthMap + 1;
+        }
+
     }
 
-    private int calculateX(int widthMap, int numPosition) {
-        return numPosition / widthMap;
+    private int calculateY(int widthMap, int numPosition) {
+        if (numPosition % widthMap != 0) {
+            return numPosition / widthMap;
+        } else {
+            return numPosition / widthMap + 1;
+        }
+
     }
 
     public Entity getEntity() {

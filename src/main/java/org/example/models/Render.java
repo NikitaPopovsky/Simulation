@@ -24,8 +24,8 @@ public class Render {
 
     private static void addDrawEntitie(String[][] gameMapString, Set<Cordinate> coordinates) {
         for (Cordinate cordinate: coordinates) {
-            int x = cordinate.getX();
-            int y = cordinate.getY();
+            int x = cordinate.getX()-1;
+            int y = cordinate.getY()-1;
             gameMapString[x][y] = getDrawEntity (cordinate.getEntity());
         }
     }

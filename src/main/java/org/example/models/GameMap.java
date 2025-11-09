@@ -103,7 +103,7 @@ public class GameMap {
 
     //Получает рандомный номер
     private int getRandomNum(Random random, int countFields) {
-        return random.nextInt(countFields + 1);
+        return random.nextInt(1,countFields + 1);
     }
 
 }
