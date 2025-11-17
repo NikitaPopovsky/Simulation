@@ -1,15 +1,26 @@
 package org.example.models;
 
 import org.example.TypeEntity;
-import org.example.dto.Cordinate;
+import org.example.dto.Coordinate;
 
 import java.util.*;
 
 public class GameMap {
-    private Set<Cordinate> coordinates = new HashSet<>();
+    private static GameMap instance;
+    private Set<Coordinate> coordinates = new HashSet<>();
     private int width;
     private int height;
     private int countEachEntity;
+
+    public static GameMap getInstance() {
+        if (instance == null) {
+            instance = new GameMap();
+        }
+        return instance;
+    }
+
+    public GameMap() {
+    }
 
     public GameMap(int width, int height, int countEachEntity) {
         this.width = width;
@@ -17,11 +28,11 @@ public class GameMap {
         this.countEachEntity = countEachEntity;
     }
 
-    public Set<Cordinate> getCoordinates() {
+    public Set<Coordinate> getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(Set<Cordinate> coordinates) {
+    public void setCoordinates(Set<Coordinate> coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -54,8 +65,8 @@ public class GameMap {
         Map<Integer, TypeEntity> numsEntity = createNumsEntity();
 
         for(Map.Entry <Integer, TypeEntity> numEntity: numsEntity.entrySet()) {
-            Cordinate cordinate = new Cordinate(numEntity.getValue(), width, height, numEntity.getKey());
-            coordinates.add(cordinate);
+            Coordinate coordinate = new Coordinate(numEntity.getValue(), width, height, numEntity.getKey());
+            coordinates.add(coordinate);
         }
 
     }

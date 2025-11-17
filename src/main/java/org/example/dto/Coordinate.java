@@ -3,15 +3,17 @@ package org.example.dto;
 import org.example.TypeEntity;
 import org.example.models.Entity;
 
-public class Cordinate {
+public class Coordinate {
     private final Entity entity;
     private int x;
     private int y;
+    private int position;
 
-    public Cordinate(TypeEntity type, int widthMap, int heightMap, int numPosition) {
+    public Coordinate(TypeEntity type, int widthMap, int heightMap, int numPosition) {
         this.entity = Entity.createEntity(type);
         this.x = calculateX(widthMap, numPosition);
         this.y = calculateY(widthMap, numPosition);
+        this.position = numPosition;
     }
 
     private int calculateX(int widthMap, int numPosition) {
@@ -50,5 +52,13 @@ public class Cordinate {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

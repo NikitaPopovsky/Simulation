@@ -1,7 +1,7 @@
 package org.example.models;
 
 import org.example.DrawEntity;
-import org.example.dto.Cordinate;
+import org.example.dto.Coordinate;
 import org.example.models.creatures.Herbivore;
 import org.example.models.creatures.Predator;
 import org.example.models.textures.Grass;
@@ -22,11 +22,11 @@ public class Render {
         }
     }
 
-    private static void addDrawEntitie(String[][] gameMapString, Set<Cordinate> coordinates) {
-        for (Cordinate cordinate: coordinates) {
-            int x = cordinate.getX()-1;
-            int y = cordinate.getY()-1;
-            gameMapString[x][y] = getDrawEntity (cordinate.getEntity());
+    private static void addDrawEntitie(String[][] gameMapString, Set<Coordinate> coordinates) {
+        for (Coordinate coordinate : coordinates) {
+            int x = coordinate.getX()-1;
+            int y = coordinate.getY()-1;
+            gameMapString[x][y] = getDrawEntity (coordinate.getEntity());
         }
     }
 
