@@ -2,6 +2,7 @@ package org.example.dto;
 
 import org.example.TypeEntity;
 import org.example.models.Entity;
+import org.example.models.creatures.Creature;
 
 public class Coordinate {
     private final Entity entity;
@@ -36,6 +37,10 @@ public class Coordinate {
 
     public Entity getEntity() {
         return entity;
+    }
+
+    public Creature getCreature() {
+        return (Creature) entity;
     }
 
     public int getX() {

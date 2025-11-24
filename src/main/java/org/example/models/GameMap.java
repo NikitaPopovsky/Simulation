@@ -22,12 +22,6 @@ public class GameMap {
     public GameMap() {
     }
 
-    public GameMap(int width, int height, int countEachEntity) {
-        this.width = width;
-        this.height = height;
-        this.countEachEntity = countEachEntity;
-    }
-
     public Set<Coordinate> getCoordinates() {
         return coordinates;
     }

@@ -1,10 +1,26 @@
 package org.example;
 
+import org.example.models.GameMap;
+import org.example.models.Simulation;
+
 public class Main {
     public static void main(String[] args) {
-//        GameMap gameMap = new GameMap(10, 10, 5);
-//        gameMap.generateCoordinates();
-//        Render.printMap(gameMap);
-        //Cordinate cordinate = new Cordinate(TypeEntity.ROCK, 10, 10, 21);
+        //Количество полей в ширину, высоту, количество каждой сущности
+        int countForMap = 5;
+        //Количество ходов симуляции
+        int countStep = 10;
+
+        Simulation simulation = Simulation.getInstance();
+        initializationGameMap(simulation.getGameMap(), countForMap);
+
+        simulation.startSimulation(countStep);
+
+    }
+
+    private static void initializationGameMap(GameMap gameMap, int count) {
+        gameMap.setWidth(count);
+        gameMap.setHeight(count);
+        gameMap.setCountEachEntity(count);
+
     }
 }

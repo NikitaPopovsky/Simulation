@@ -1,6 +1,9 @@
 package org.example.models;
 
 import org.example.dto.Coordinate;
+import org.example.models.creatures.Creature;
+import org.example.models.creatures.Herbivore;
+import org.example.models.creatures.Predator;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -8,6 +11,9 @@ import java.util.stream.Collectors;
 import static org.example.models.Entity.DistributeCoordinatesByType;
 
 public class Action {
+    public static void initActions() {
+        GameMap.getInstance().generateCoordinates();
+    }
 
     public void createActionsForStep (List<Coordinate> coordinates) {
         Map<String, List<Coordinate>> entityCoordinates = DistributeCoordinatesByType(coordinates);
@@ -16,18 +22,29 @@ public class Action {
 
     //Создаем действия для  Herbivore (травоядных)
     private void createActionHerbivore(Map<String, List<Coordinate>> entityCoordinates) {
-        for (Coordinate coordinate : entityCoordinates.get("herbivore")) {
-            findResource(coordinate, entityCoordinates);
+        List <Coordinate> staticEntity = entityCoordinates.get("staticEntity");
+        Set<Integer> targetPositionsForHerbivore = convertCoordinateToSet(entityCoordinates.get("grass"));
+        Set<Integer> targetPositionsForPredator = convertCoordinateToSet(entityCoordinates.get("creature").stream()
+                .filter(creature-> creature.getEntity() instanceof Herbivore).toList());
+
+        for (Coordinate coordinate : entityCoordinates.get("creature")) {
+            Creature creature = coordinate.getCreature();
+            if (creature instanceof Herbivore) {
+                creature.makeMove(coordinate, staticEntity, targetPositionsForHerbivore);
+            } else if (creature instanceof Predator) {
+                creature.makeMove(coordinate, staticEntity, targetPositionsForPredator);
+            }
+
         }
     }
 
     //Производится поиск ближайшего ресурса
-    private void findResource(Coordinate coordinate, Map<String, List<Coordinate>> entityCoordinates) {
-        Set<Integer> targetPositions = convertCoordinateToSet(entityCoordinates.get("grass"));
+    public void findResource(Coordinate coordinate, List <Coordinate> staticEntity,
+                              Set<Integer> targetPositions) {
+
         int startPosition = coordinate.getPosition();
         BreadthFirstSearch bfs = new BreadthFirstSearch(startPosition, targetPositions);
-        bfs.addStaticEntityToVisited(entityCoordinates.get("staticEntity"));
-        //bfs.findNeighbors(startPosition);
+        bfs.addStaticEntityToVisited(staticEntity);
         bfs.searchEndPosition();
         int positionForNextStep = bfs.positionForNextStep();
     }
