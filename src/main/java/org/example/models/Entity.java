@@ -1,6 +1,6 @@
 package org.example.models;
 
-import org.example.TypeEntity;
+import org.example.enums.TypeEntity;
 import org.example.dto.Coordinate;
 import org.example.models.creatures.Creature;
 import org.example.models.creatures.Herbivore;

@@ -1,6 +1,7 @@
-package org.example.models;
+package org.example.models.actions;
 
 import org.example.dto.Coordinate;
+import org.example.models.GameMap;
 import org.example.models.creatures.Creature;
 import org.example.models.creatures.Herbivore;
 import org.example.models.creatures.Predator;
@@ -10,10 +11,21 @@ import java.util.stream.Collectors;
 
 import static org.example.models.Entity.DistributeCoordinatesByType;
 
-public class Action {
-    public static void initActions() {
-        GameMap.getInstance().generateCoordinates();
+public abstract class Action {
+    private GameMap gameMap;
+
+    public abstract void make ();
+
+    public Action() {
     }
+
+    public Action(GameMap gameMap) {
+        this.gameMap = gameMap;
+    }
+
+    //    public static void initActions(GameMap gameMap) {
+//        gameMap.generateCoordinates();
+//    }
 
     public void createActionsForStep (List<Coordinate> coordinates) {
         Map<String, List<Coordinate>> entityCoordinates = DistributeCoordinatesByType(coordinates);

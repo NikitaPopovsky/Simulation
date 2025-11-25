@@ -1,7 +1,9 @@
-package org.example.models;
+package org.example;
 
-import org.example.DrawEntity;
+import org.example.enums.DrawEntity;
 import org.example.dto.Coordinate;
+import org.example.models.Entity;
+import org.example.models.GameMap;
 import org.example.models.creatures.Herbivore;
 import org.example.models.creatures.Predator;
 import org.example.models.textures.Grass;
@@ -13,16 +15,24 @@ import java.util.Set;
 
 public class Render {
 
-    public static void printMap (GameMap gameMap) {
+    public static void printMap (GameMap gameMap, int countStep) {
         String [][] gameMapString =  gameMapToString(gameMap);
-        addDrawEntitie(gameMapString, gameMap.getCoordinates());
-
+        drawPreliminaryData(countStep, gameMap.getWidth());
+        addDrawEntities(gameMapString, gameMap.getCoordinates());
         for (String [] lineMap : gameMapString) {
             System.out.println(Arrays.deepToString(lineMap));
         }
     }
 
-    private static void addDrawEntitie(String[][] gameMapString, Set<Coordinate> coordinates) {
+    private static void drawPreliminaryData(int countStep, int width) {
+        String separatorLine = ("_").repeat(width*5);
+        System.out.println(separatorLine);
+        System.out.println("Step: " + countStep);
+        System.out.println(separatorLine);
+
+    }
+
+    private static void addDrawEntities(String[][] gameMapString, Set<Coordinate> coordinates) {
         for (Coordinate coordinate : coordinates) {
             int x = coordinate.getX()-1;
             int y = coordinate.getY()-1;

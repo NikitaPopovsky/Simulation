@@ -1,7 +1,9 @@
 package org.example.models;
 
+import org.example.Render;
+import org.example.models.actions.Action;
+
 import java.util.List;
-import java.util.Scanner;
 
 public class Simulation {
     private static Simulation instance;
@@ -25,7 +27,7 @@ public class Simulation {
 
     public void nextTurn(){
         if (countStep == 1) {
-            Action.initActions();
+            Action.initActions(gameMap);
         }
 
     }
@@ -34,6 +36,7 @@ public class Simulation {
 
         while (countStep++ <  endCountStep) {
             nextTurn();
+            Render.printMap(gameMap, countStep);
         }
         pauseSimulation ();
     }

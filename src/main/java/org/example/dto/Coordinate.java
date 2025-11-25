@@ -1,6 +1,6 @@
 package org.example.dto;
 
-import org.example.TypeEntity;
+import org.example.enums.TypeEntity;
 import org.example.models.Entity;
 import org.example.models.creatures.Creature;
 
