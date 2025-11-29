@@ -1,15 +1,18 @@
 package org.example.models;
 
 import org.example.Render;
-import org.example.models.actions.Action;
+import org.example.dto.Coordinate;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 public class Simulation {
     private static Simulation instance;
     private GameMap gameMap;
     private int countStep;
-    private List<Action> Actions;
+    private final Queue<Action> actions = new LinkedList<>();
 
 
     public static Simulation getInstance() {
@@ -22,21 +25,32 @@ public class Simulation {
     private Simulation() {
         gameMap = GameMap.getInstance();
         countStep = 0;
-
     }
 
-    public void nextTurn(){
-        if (countStep == 1) {
-            Action.initActions(gameMap);
+    private void addAction(){
+        if (countStep == 0) {
+            Action.addInitActions(actions);
+            return;
         }
-
+        Action.addTurnActions(actions);
     }
+
+    private void nextTurn(){
+
+        while (!actions.isEmpty()) {
+           actions.poll().make();
+       }
+    }
+
+
 
     public void startSimulation (int endCountStep) {
 
-        while (countStep++ <  endCountStep) {
+        while (countStep <  endCountStep) {
+            addAction();
             nextTurn();
             Render.printMap(gameMap, countStep);
+            countStep++;
         }
         pauseSimulation ();
     }

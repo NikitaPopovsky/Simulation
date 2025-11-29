@@ -1,25 +1,49 @@
 package org.example.models.actions;
 
+import org.example.models.Action;
 import org.example.dto.Coordinate;
 import org.example.enums.TypeEntity;
 import org.example.models.GameMap;
 
 import java.util.*;
 
-public class InitializationCreatures extends Action{
+public class InitializationCreatures extends Action {
+    private static InitializationCreatures instance;
+    private final int width;
+    private final int height;
+    private final int countEachEntity;
+
+    public static InitializationCreatures getInstance() {
+        if (instance == null) {
+            instance = new InitializationCreatures();
+        }
+        return instance;
+    }
+
+    public InitializationCreatures() {
+        GameMap gameMap = GameMap.getInstance();
+        width = gameMap.getWidth();
+        height = gameMap.getHeight();
+        countEachEntity = gameMap.getCountEachEntity();
+    }
+
     @Override
     public void make() {
-        generateCoordinates();
+        GameMap gameMap = GameMap.getInstance();
+        Set<Coordinate> coordinates = generateCoordinates();
+        gameMap.setCoordinates(coordinates);
     }
 
     //Генерирует координаты Х и У каждой сущности
-    public void generateCoordinates() {
+    public Set<Coordinate> generateCoordinates() {
+        Set<Coordinate> coordinates = new HashSet<>();
         Map<Integer, TypeEntity> numsEntity = createNumsEntity();
 
         for(Map.Entry <Integer, TypeEntity> numEntity: numsEntity.entrySet()) {
             Coordinate coordinate = new Coordinate(numEntity.getValue(), width, height, numEntity.getKey());
             coordinates.add(coordinate);
         }
+        return coordinates;
 
     }
 

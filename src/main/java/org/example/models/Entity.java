@@ -9,10 +9,7 @@ import org.example.models.textures.Grass;
 import org.example.models.textures.Rock;
 import org.example.models.textures.Tree;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Entity {
     public static Entity createEntity (TypeEntity type) {
@@ -32,7 +29,7 @@ public abstract class Entity {
         }
     }
 
-    public static Map<String, List<Coordinate>> DistributeCoordinatesByType (List<Coordinate> coordinates) {
+    public static Map<String, List<Coordinate>> DistributeCoordinatesByType (Set<Coordinate> coordinates) {
         Map<String, List<Coordinate>> entityCoordinates = new HashMap<>();
         List<Coordinate> creatureCoordinates = new ArrayList<>();
         List<Coordinate> grassCoordinates = new ArrayList<>();

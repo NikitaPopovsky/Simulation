@@ -2,6 +2,7 @@ package org.example.dto;
 
 import org.example.enums.TypeEntity;
 import org.example.models.Entity;
+import org.example.models.GameMap;
 import org.example.models.creatures.Creature;
 
 public class Coordinate {
@@ -64,6 +65,9 @@ public class Coordinate {
     }
 
     public void setPosition(int position) {
+        int widthMap = GameMap.getInstance().getWidth();
         this.position = position;
+        this.x = calculateX(widthMap, position);
+        this.y = calculateY(widthMap, position);
     }
 }
