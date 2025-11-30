@@ -44,7 +44,7 @@ public class MovingToTarget extends Action {
 
             Deque<Integer> nextSteps = nextSteps(coordinate.getPosition(), staticEntity, targetPositions);
             if (!nextSteps.isEmpty()) {
-                coordinate.setPosition(nextSteps.poll());
+                coordinate.setPosition(nextSteps.pollLast());
             }
 
         }
@@ -54,8 +54,8 @@ public class MovingToTarget extends Action {
     public Deque<Integer> nextSteps(int startPosition, List <Coordinate> staticEntity,
                              Set<Integer> targetPositions) {
 
-        BreadthFirstSearch bfs = new BreadthFirstSearch(startPosition, targetPositions);
-        bfs.addStaticEntityToVisited(staticEntity);
+        BreadthFirstSearch bfs = new BreadthFirstSearch(startPosition, targetPositions, staticEntity);
+        //bfs.addStaticEntityToVisited(staticEntity);
         bfs.searchEndPosition();
         return bfs.positionsForNextStep();
     }
