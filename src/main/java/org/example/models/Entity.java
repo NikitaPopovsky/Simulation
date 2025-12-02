@@ -29,27 +29,29 @@ public abstract class Entity {
         }
     }
 
-    public static Map<String, List<Coordinate>> DistributeCoordinatesByType (Set<Coordinate> coordinates) {
-        Map<String, List<Coordinate>> entityCoordinates = new HashMap<>();
-        List<Coordinate> creatureCoordinates = new ArrayList<>();
-        List<Coordinate> grassCoordinates = new ArrayList<>();
-        List<Coordinate> staticEntityCoordinates = new ArrayList<>();
-
-        for (Coordinate coordinate : coordinates) {
-            if (coordinate.getEntity() instanceof Creature) {
-                creatureCoordinates.add(coordinate);
-            } else if (coordinate.getEntity() instanceof Grass) {
-                grassCoordinates.add(coordinate);
-            } else if (coordinate.getEntity() instanceof Rock || coordinate.getEntity() instanceof Tree) {
-                staticEntityCoordinates.add(coordinate);
-            }
-        }
-
-        entityCoordinates.put("creature", creatureCoordinates);
-        entityCoordinates.put("grass", grassCoordinates);
-        entityCoordinates.put("staticEntity", staticEntityCoordinates);
-
-        return entityCoordinates;
-    }
+//    public static Map<String, List<Coordinate>> DistributeCoordinatesByType (Set<Coordinate> coordinates) {
+//        Map<String, List<Coordinate>> entityCoordinates = new HashMap<>();
+//        List<Coordinate> creatureCoordinates = new ArrayList<>();
+//        List<Coordinate> grassCoordinates = new ArrayList<>();
+//        List<Coordinate> allEntityCoordinates = new ArrayList<>();
+//
+//        for (Coordinate coordinate : coordinates) {
+//            if (coordinate.getEntity() instanceof Creature) {
+//                creatureCoordinates.add(coordinate);
+//            } else if (coordinate.getEntity() instanceof Grass) {
+//                grassCoordinates.add(coordinate);
+//            }
+//            //else if (coordinate.getEntity() instanceof Rock || coordinate.getEntity() instanceof Tree) {
+//            //}
+//            allEntityCoordinates.add(coordinate);
+//
+//        }
+//
+//        entityCoordinates.put("creature", creatureCoordinates);
+//        entityCoordinates.put("grass", grassCoordinates);
+//        entityCoordinates.put("allEntityCoordinates", allEntityCoordinates);
+//
+//        return entityCoordinates;
+//    }
 
 }

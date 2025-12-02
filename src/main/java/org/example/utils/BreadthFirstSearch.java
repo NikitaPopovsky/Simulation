@@ -16,13 +16,13 @@ public class BreadthFirstSearch {
     private final int width = GameMap.getInstance().getWidth();
     private final int height = GameMap.getInstance().getHeight();
 
-    public BreadthFirstSearch(int startPosition, Set<Integer> targetPositions, List <Coordinate> staticEntity) {
+    public BreadthFirstSearch(int startPosition, Set<Integer> targetPositions, Set<Integer> occupiedPosition) {
         this.startPosition = startPosition;
         this.targetPositions = targetPositions;
 
         visited.add(startPosition);
         positionWithParent.put(startPosition,0);
-        addStaticEntityToVisited(staticEntity);
+        addStaticEntityToVisited(occupiedPosition);
         findNeighbors(startPosition);
     }
 
@@ -48,8 +48,10 @@ public class BreadthFirstSearch {
         List<Integer> removeNums = new ArrayList<>();
         for (int position: positions) {
             //int position = neighbors.get(i);
-            //если позиция за границей карты сверху или снизу , или если посещена
-            if (position <= 0 ||  position > width*height || visited.contains(position)
+            //если позиция за границей карты сверху или снизу
+            if (position <= 0 ||  position > width*height
+                //или если посещена/занята и не целевая
+                || (visited.contains(position) && !targetPositions.contains(position))
                 //если родитель на краю карты справа, а позиция за границей карты
                 || (parent % width == 0 && position % width == 1 )
                 //если родитель на краю карты слева, а позиция за границей карты
@@ -63,7 +65,7 @@ public class BreadthFirstSearch {
         }
     }
 
-    private Set<Integer> getNeighborsPosition(int curPosition) {
+    public static Set<Integer> getNeighborsPosition(int curPosition) {
         int width = GameMap.getInstance().getWidth();
         Set <Integer> neighbors = new HashSet<>();
         neighbors.add(curPosition+1);
@@ -74,10 +76,8 @@ public class BreadthFirstSearch {
         return neighbors;
     }
 
-    public void addStaticEntityToVisited(List<Coordinate> staticEntity) {
-        //visitedWithParent.putAll();
-        visited.addAll(staticEntity.stream().map(Coordinate::getPosition)
-                .collect(Collectors.toSet()));
+    public void addStaticEntityToVisited(Set<Integer> staticEntity) {
+        visited.addAll(staticEntity);
     }
 
     public void searchEndPosition(){
@@ -102,11 +102,16 @@ public class BreadthFirstSearch {
     //Ищем самого верхнего родителя
     public Deque<Integer> positionsForNextStep() {
         Deque<Integer> steps = new LinkedList<>();
+        if (endPosition == 0) {
+            return steps;
+        }
         int currentPosition = endPosition;
         //int parentCurrentPosition = 0;
         int parentCurrentPosition = positionWithParent.get(currentPosition);
         while (parentCurrentPosition != 0) {
-            steps.add(currentPosition);
+            if(currentPosition != endPosition) {
+                steps.add(currentPosition);
+            }
             currentPosition = parentCurrentPosition;
             parentCurrentPosition = positionWithParent.get(currentPosition);
         }

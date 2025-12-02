@@ -1,12 +1,10 @@
 package org.example.models;
 
 import org.example.Render;
-import org.example.dto.Coordinate;
+import org.example.models.actions.Action;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
-import java.util.Set;
 
 public class Simulation {
     private static Simulation instance;

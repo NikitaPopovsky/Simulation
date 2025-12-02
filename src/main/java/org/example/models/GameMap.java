@@ -55,7 +55,18 @@ public class GameMap {
     }
 
 
+    public void removeEntity(int position) {
+        Coordinate removeCoordinate = null;
+        for (Coordinate coordinate : coordinates) {
+            if (coordinate.getPosition() == position) {
+                removeCoordinate = coordinate;
+            }
+        }
 
+        if (removeCoordinate != null) {
+            coordinates.remove(removeCoordinate);
+        }
+    }
 }
 
 

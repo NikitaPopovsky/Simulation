@@ -1,7 +1,5 @@
 package org.example.models.actions;
 
-import org.example.models.Action;
-
 public class CreationCreature extends Action {
     private static CreationCreature instance;
 

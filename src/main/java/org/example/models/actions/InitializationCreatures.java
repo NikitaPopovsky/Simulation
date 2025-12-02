@@ -1,6 +1,5 @@
 package org.example.models.actions;
 
-import org.example.models.Action;
 import org.example.dto.Coordinate;
 import org.example.enums.TypeEntity;
 import org.example.models.GameMap;
