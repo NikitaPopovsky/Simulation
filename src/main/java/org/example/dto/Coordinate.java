@@ -18,6 +18,13 @@ public class Coordinate {
         this.position = numPosition;
     }
 
+    public Coordinate(Class <?> entityClass, int widthMap, int numPosition) {
+        this.entity =Entity.createEntity(entityClass);
+        this.x = calculateX(widthMap, numPosition);
+        this.y = calculateY(widthMap, numPosition);
+        this.position = numPosition;
+    }
+
     private int calculateX(int widthMap, int numPosition) {
         if (numPosition % widthMap == 0) {
             return widthMap;

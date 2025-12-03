@@ -1,6 +1,7 @@
 package org.example.models.actions;
 
 import org.example.dto.Coordinate;
+import org.example.enums.Constants;
 import org.example.enums.TypeEntity;
 import org.example.models.GameMap;
 
@@ -24,7 +25,7 @@ public class InitializationCreatures extends Action {
         GameMap gameMap = GameMap.getInstance();
         width = gameMap.getWidth();
         height = gameMap.getHeight();
-        countEachEntity = gameMap.getCountEachEntity();
+        countEachEntity = Constants.countEntity.getValue();
     }
 
     @Override
@@ -49,7 +50,11 @@ public class InitializationCreatures extends Action {
 
     //Создает таблицу с номерами и типами сущностей
     private Map<Integer, TypeEntity> createNumsEntity() {
-        Set<Integer> generateNums = generateNums();
+        int count = countEachEntity * TypeEntity.values().length;
+        Set<Integer> nums = new HashSet<>();
+
+        Set<Integer> generateNums = generateNums(count, nums);
+
         List<TypeEntity> typeEntities = createTypeEntities();
         return connectNumsAndEntity(generateNums, typeEntities);
     }
@@ -73,23 +78,27 @@ public class InitializationCreatures extends Action {
     }
 
     //Генерирует номера, проверяя уникальность
-    private Set<Integer> generateNums () {
+    //count - количество номеров которое надо сгенерировать
+    //nums - список номеров которые уже есть
+    static Set<Integer> generateNums (int count, Set<Integer> nums) {
         Random random = new Random();
-        Set<Integer> nums = new HashSet<>();
-        int countFields = width * height;
-        int count = countEachEntity * TypeEntity.values().length;
+        GameMap gameMap = GameMap.getInstance();
+        Set<Integer> newNums = new HashSet<>();
+        int countFields = gameMap.getWidth() * gameMap.getHeight();
+
 
         while (count != 0) {
             int num = getRandomNum(random, countFields);
-            if (nums.add(num)) {
+            if (!nums.contains(num) && !newNums.contains(num)) {
+                newNums.add(num);
                 count--;
             }
         }
-        return  nums;
+        return  newNums;
     }
 
     //Получает рандомный номер
-    private int getRandomNum(Random random, int countFields) {
+    static int getRandomNum(Random random, int countFields) {
         return random.nextInt(1,countFields + 1);
     }
 }

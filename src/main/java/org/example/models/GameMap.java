@@ -10,7 +10,6 @@ public class GameMap {
     private Set<Coordinate> coordinates = new HashSet<>();
     private int width;
     private int height;
-    private int countEachEntity;
 
     public static GameMap getInstance() {
         if (instance == null) {
@@ -45,15 +44,6 @@ public class GameMap {
     public void setHeight(int height) {
         this.height = height;
     }
-
-    public int getCountEachEntity() {
-        return countEachEntity;
-    }
-
-    public void setCountEachEntity(int countEachEntity) {
-        this.countEachEntity = countEachEntity;
-    }
-
 
     //Удаление сущности с карты
     public void removeEntity(int position) {
