@@ -62,11 +62,11 @@ public class Render {
     //Получаем рисунок для сущности
     private static String getDrawEntity(Entity entity) {
         return switch (entity) {
-            case Herbivore herbivore -> DrawEntity.HERBIVORE.getValue();
-            case Predator predator -> DrawEntity.PREDATOR.getValue();
-            case Grass grass -> DrawEntity.GRASS.getValue();
-            case Rock rock -> DrawEntity.ROCK.getValue();
-            case Tree tree -> DrawEntity.TREE.getValue();
+            case Herbivore _ -> DrawEntity.HERBIVORE.getValue();
+            case Predator _ -> DrawEntity.PREDATOR.getValue();
+            case Grass _ -> DrawEntity.GRASS.getValue();
+            case Rock _ -> DrawEntity.ROCK.getValue();
+            case Tree _ -> DrawEntity.TREE.getValue();
             case null, default -> "";
         };
     }
