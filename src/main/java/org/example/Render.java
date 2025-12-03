@@ -13,8 +13,10 @@ import org.example.models.textures.Tree;
 import java.util.Arrays;
 import java.util.Set;
 
+//Рендер, отрисовывающий объекты в консоль
 public class Render {
 
+    //Отрисовывает карту и сущности на ней
     public static void printMap (GameMap gameMap, int countStep) {
         String [][] gameMapString =  gameMapToString(gameMap);
         drawPreliminaryData(countStep, gameMap.getWidth());
@@ -24,6 +26,7 @@ public class Render {
         }
     }
 
+    //Выводит разделитель
     private static void drawPreliminaryData(int countStep, int width) {
         String separatorLine = ("_").repeat(width*5);
         System.out.println(separatorLine);
@@ -31,6 +34,7 @@ public class Render {
         System.out.println(separatorLine);
 
     }
+
 
     private static void addDrawEntities(String[][] gameMapString, Set<Coordinate> coordinates) {
         for (Coordinate coordinate : coordinates) {
@@ -55,20 +59,16 @@ public class Render {
         return gameMapString;
     }
 
+    //Получаем рисунок для сущности
     private static String getDrawEntity(Entity entity) {
-        if (entity instanceof Herbivore) {
-            return DrawEntity.HERBIVORE.getValue();
-        } else if (entity instanceof Predator) {
-            return DrawEntity.PREDATOR.getValue();
-        } else if (entity instanceof Grass) {
-            return DrawEntity.GRASS.getValue();
-        } else if (entity instanceof Rock) {
-            return  DrawEntity.ROCK.getValue();
-        } else if (entity instanceof Tree) {
-            return  DrawEntity.TREE.getValue();
-        } else  {
-            return  "";
-        }
+        return switch (entity) {
+            case Herbivore herbivore -> DrawEntity.HERBIVORE.getValue();
+            case Predator predator -> DrawEntity.PREDATOR.getValue();
+            case Grass grass -> DrawEntity.GRASS.getValue();
+            case Rock rock -> DrawEntity.ROCK.getValue();
+            case Tree tree -> DrawEntity.TREE.getValue();
+            case null, default -> "";
+        };
     }
 
 

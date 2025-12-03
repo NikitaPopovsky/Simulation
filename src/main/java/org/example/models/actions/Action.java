@@ -3,7 +3,6 @@ package org.example.models.actions;
 import org.example.dto.Coordinate;
 import org.example.models.Entity;
 import org.example.models.GameMap;
-import org.example.models.creatures.Creature;
 import org.example.models.creatures.Herbivore;
 import org.example.models.creatures.Predator;
 import org.example.models.textures.Grass;
@@ -11,54 +10,38 @@ import org.example.models.textures.Grass;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//import static org.example.models.Entity.DistributeCoordinatesByType;
-
 public abstract class Action {
 
+    //Выполняем действие
     public abstract void make ();
 
-    //public abstract void makeStep();
-
-    public Action() {
-    }
-
+    //Добавляем первоначальные действия
     public static void addInitActions(Queue<Action> Actions) {
         Actions.add(InitializationCreatures.getInstance());
     }
 
+    //Добавляем действия, повторяющиеся каждый ход
     public static void addTurnActions (Queue<Action> Actions) {
         Actions.add(InteractToTarget.getInstance());
         Actions.add(MovingToTarget.getInstance());
+        Actions.add(CreationEntity.getInstance());
     }
 
-    //Преобразовываем список координат в список позиций
-    protected Set<Integer> convertCoordinateToSet(List<Coordinate> coordinates) {
-        return coordinates.stream().map(Coordinate::getPosition).collect(Collectors.toSet());
-    }
-
-    public void makeStepCreature(Action action) {
+    //Получаем текущие координаты
+    protected Set<Coordinate> getCoordinates() {
         GameMap gameMap = GameMap.getInstance();
-        Set<Coordinate> coordinates = gameMap.getCoordinates();
-        Set<Coordinate> creatures = coordinates.stream()
-                .filter(coordinate -> coordinate.getEntity() instanceof Creature).collect(Collectors.toSet());
-
-        for (Coordinate coordinate : creatures) {
-            Set<Integer> allEntity = coordinates.stream().map(Coordinate::getPosition).collect(Collectors.toSet());
-            Set<Integer> targetPositions = getTargets(coordinate.getEntity(), coordinates);
-
-            if (action instanceof MovingToTarget) {
-                ((MovingToTarget) action).move(coordinate, allEntity, targetPositions);
-            } else if (action instanceof InteractToTarget) {
-                ((InteractToTarget) action).interact(coordinate, targetPositions);
-            }
-
-        }
-        gameMap.setCoordinates(coordinates);
-
-
+        return gameMap.getCoordinates();
     }
 
-    private Set<Integer> getTargets(Entity entity, Set<Coordinate> coordinates) {
+    //Устанавливаем новые координаты после действия
+    protected void setCoordinates(Set<Coordinate> coordinates) {
+        GameMap gameMap = GameMap.getInstance();
+        gameMap.setCoordinates(coordinates);
+    }
+
+    //Получаем цели для действия
+    //Пример: для травоядного - трава; для хищника - травоядное
+    protected Set<Integer> getTargets(Entity entity, Set<Coordinate> coordinates) {
         if (entity instanceof Herbivore) {
             return coordinates.stream()
                     .filter(coordinate -> coordinate.getEntity() instanceof Grass)

@@ -3,15 +3,15 @@ package org.example.dto;
 import org.example.enums.TypeEntity;
 import org.example.models.Entity;
 import org.example.models.GameMap;
-import org.example.models.creatures.Creature;
 
+//ДТО хранящий позиции сущностей на карте
 public class Coordinate {
     private final Entity entity;
     private int x;
     private int y;
     private int position;
 
-    public Coordinate(TypeEntity type, int widthMap, int heightMap, int numPosition) {
+    public Coordinate(TypeEntity type, int widthMap, int numPosition) {
         this.entity = Entity.createEntity(type);
         this.x = calculateX(widthMap, numPosition);
         this.y = calculateY(widthMap, numPosition);
@@ -40,24 +40,12 @@ public class Coordinate {
         return entity;
     }
 
-    public Creature getCreature() {
-        return (Creature) entity;
-    }
-
     public int getX() {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public int getPosition() {

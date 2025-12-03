@@ -1,15 +1,16 @@
 package org.example.utils;
 
-import org.example.dto.Coordinate;
 import org.example.models.GameMap;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
+//Класс отвечает за реализацию обхода в ширину
 public class BreadthFirstSearch {
+    //Коллекция хранит всю историю посещение с родителем(клетка с которой перешли)
     private final Map<Integer, Integer> positionWithParent = new HashMap<>();
     private final Set<Integer> visited = new HashSet<>();
     private final Queue<Integer> queuePosition = new LinkedList<>();
+    //Начальная позиция для удобства отладки
     private final int startPosition;
     private int endPosition;
     private final Set<Integer> targetPositions;
@@ -26,8 +27,8 @@ public class BreadthFirstSearch {
         findNeighbors(startPosition);
     }
 
+    //Ищем соседние позиции и добавляем корректные в очередь
     private void findNeighbors(int position) {
-        //int width = GameMap.getInstance().getWidth();
         Set<Integer> neighbors =  getNeighborsPosition(position);
         checkValidationPosition(neighbors, position);
         addToPositionWithParent(neighbors, position);
@@ -44,6 +45,7 @@ public class BreadthFirstSearch {
         queuePosition.addAll(neighbors);
     }
 
+    //Проверка валидации
     private void checkValidationPosition(Set<Integer> positions, int parent) {
         List<Integer> removeNums = new ArrayList<>();
         for (int position: positions) {
@@ -65,6 +67,7 @@ public class BreadthFirstSearch {
         }
     }
 
+    //Добавляем клетку сверху, снизу , справа, слева
     public static Set<Integer> getNeighborsPosition(int curPosition) {
         int width = GameMap.getInstance().getWidth();
         Set <Integer> neighbors = new HashSet<>();
@@ -80,6 +83,7 @@ public class BreadthFirstSearch {
         visited.addAll(staticEntity);
     }
 
+    //Делаем обход в ширину, пока не наступим на целевую позицию
     public void searchEndPosition(){
         while (!queuePosition.isEmpty()) {
             int nextPosition = queuePosition.poll();
@@ -99,14 +103,14 @@ public class BreadthFirstSearch {
     }
 
 
-    //Ищем самого верхнего родителя
+    //Когда мы нашли конечную позицию, нам нужно понять по каким клеткам мы сюда дошли
+    //для этого перебираем коллекцию позиций с родителями (клетка с которой перешли)
     public Deque<Integer> positionsForNextStep() {
         Deque<Integer> steps = new LinkedList<>();
         if (endPosition == 0) {
             return steps;
         }
         int currentPosition = endPosition;
-        //int parentCurrentPosition = 0;
         int parentCurrentPosition = positionWithParent.get(currentPosition);
         while (parentCurrentPosition != 0) {
             if(currentPosition != endPosition) {

@@ -6,9 +6,10 @@ import org.example.models.actions.Action;
 import java.util.LinkedList;
 import java.util.Queue;
 
+//Класс симуляции
 public class Simulation {
     private static Simulation instance;
-    private GameMap gameMap;
+    private final GameMap gameMap;
     private int countStep;
     private final Queue<Action> actions = new LinkedList<>();
 
@@ -25,6 +26,7 @@ public class Simulation {
         countStep = 0;
     }
 
+    //Добавляем стартовые и регулярные действия
     private void addAction(){
         if (countStep == 0) {
             Action.addInitActions(actions);
@@ -33,6 +35,7 @@ public class Simulation {
         Action.addTurnActions(actions);
     }
 
+    //Прокручиваем новый ход
     private void nextTurn(){
 
         while (!actions.isEmpty()) {
@@ -40,10 +43,8 @@ public class Simulation {
        }
     }
 
-
-
+    //Стартуем симуляцию
     public void startSimulation (int endCountStep) {
-
         while (countStep <  endCountStep) {
             addAction();
             nextTurn();
@@ -59,9 +60,5 @@ public class Simulation {
 
     public GameMap getGameMap() {
         return gameMap;
-    }
-
-    public void setGameMap(GameMap gameMap) {
-        this.gameMap = gameMap;
     }
 }

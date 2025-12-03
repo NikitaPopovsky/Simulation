@@ -1,9 +1,11 @@
 package org.example.models.actions;
 
 import org.example.dto.Coordinate;
+import org.example.models.creatures.Creature;
 import org.example.utils.BreadthFirstSearch;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MovingToTarget extends Action {
     private static MovingToTarget instance;
@@ -17,8 +19,20 @@ public class MovingToTarget extends Action {
 
     @Override
     public void make() {
-        makeStepCreature(instance);
+        Set<Coordinate> coordinates = getCoordinates();
+        Set<Coordinate> creatures = coordinates.stream()
+                .filter(coordinate -> coordinate.getEntity() instanceof Creature).collect(Collectors.toSet());
+
+        for (Coordinate coordinate : creatures) {
+            Set<Integer> allEntity = coordinates.stream().map(Coordinate::getPosition).collect(Collectors.toSet());
+            Set<Integer> targetPositions = getTargets(coordinate.getEntity(), coordinates);
+
+            move(coordinate, allEntity, targetPositions);
+        }
+        setCoordinates(coordinates);
     }
+
+
 
     //Получаем список следующих шагов
     public Deque<Integer> nextSteps(int startPosition, Set<Integer> allEntity,
@@ -29,7 +43,7 @@ public class MovingToTarget extends Action {
         return bfs.positionsForNextStep();
     }
 
-
+    //делаем шаги к цели
     public void move(Coordinate coordinate, Set<Integer> allEntity, Set<Integer> targetPositions) {
         if (!targetPositions.isEmpty()) {
             Deque<Integer> nextSteps = nextSteps(coordinate.getPosition(), allEntity, targetPositions);

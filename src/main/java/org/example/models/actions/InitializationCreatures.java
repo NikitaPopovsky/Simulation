@@ -6,6 +6,7 @@ import org.example.models.GameMap;
 
 import java.util.*;
 
+//Класс инициализирует существ на карте при создании симуляции
 public class InitializationCreatures extends Action {
     private static InitializationCreatures instance;
     private final int width;
@@ -39,7 +40,7 @@ public class InitializationCreatures extends Action {
         Map<Integer, TypeEntity> numsEntity = createNumsEntity();
 
         for(Map.Entry <Integer, TypeEntity> numEntity: numsEntity.entrySet()) {
-            Coordinate coordinate = new Coordinate(numEntity.getValue(), width, height, numEntity.getKey());
+            Coordinate coordinate = new Coordinate(numEntity.getValue(), width, numEntity.getKey());
             coordinates.add(coordinate);
         }
         return coordinates;

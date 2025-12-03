@@ -1,10 +1,10 @@
 package org.example.models;
 
-import org.example.enums.TypeEntity;
 import org.example.dto.Coordinate;
 
 import java.util.*;
 
+//Игровая карта с координатами объектов
 public class GameMap {
     private static GameMap instance;
     private Set<Coordinate> coordinates = new HashSet<>();
@@ -55,6 +55,7 @@ public class GameMap {
     }
 
 
+    //Удаление сущности с карты
     public void removeEntity(int position) {
         Coordinate removeCoordinate = null;
         for (Coordinate coordinate : coordinates) {
