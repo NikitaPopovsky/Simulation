@@ -1,11 +1,12 @@
 package org.example.enums;
 
-import org.example.models.GameMap;
-
 //Данный класс содержит в себе переменные для баланса симуляции
 public enum Constants {
     //Количество каждого существа на карте - 5% от количества клеток
-    countEntity (setCountEntity());
+    WIDTH_MAP(10),
+    HEIGHT_MAP(10),
+    COUNT_ENTITY(setCountEntity());
+
 
     private final int value;
 
@@ -18,10 +19,11 @@ public enum Constants {
     }
 
     private static int setCountEntity() {
-        GameMap gameMap = GameMap.getInstance();
-        int count = gameMap.getHeight() * gameMap.getWidth() / 20;
+        int count = WIDTH_MAP.value * HEIGHT_MAP.value / 20;
         return Math.max(count, 1);
     }
+
+
 
 
 }

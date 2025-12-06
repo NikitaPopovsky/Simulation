@@ -11,7 +11,6 @@ import java.util.*;
 public class InitializationCreatures extends Action {
     private static InitializationCreatures instance;
     private final int width;
-    private final int height;
     private final int countEachEntity;
 
     public static InitializationCreatures getInstance() {
@@ -24,8 +23,7 @@ public class InitializationCreatures extends Action {
     public InitializationCreatures() {
         GameMap gameMap = GameMap.getInstance();
         width = gameMap.getWidth();
-        height = gameMap.getHeight();
-        countEachEntity = Constants.countEntity.getValue();
+        countEachEntity = Constants.COUNT_ENTITY.getValue();
     }
 
     @Override

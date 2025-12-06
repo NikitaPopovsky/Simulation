@@ -41,6 +41,7 @@ public class InteractToTarget extends Action {
         Set<Integer> neighbors = BreadthFirstSearch.getNeighborsPosition(coordinate.getPosition());
         int interactPosition = getInteractPosition(neighbors, targetPositions);
         if (interactPosition != 0){
+            coordinate.setBusy();
             GameMap.getInstance().removeEntity(interactPosition);
         }
     }

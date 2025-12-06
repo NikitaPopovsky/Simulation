@@ -24,6 +24,9 @@ public class MovingToTarget extends Action {
                 .filter(coordinate -> coordinate.getEntity() instanceof Creature).collect(Collectors.toSet());
 
         for (Coordinate coordinate : creatures) {
+            if (coordinate.isBusy()) {
+                continue;
+            }
             Set<Integer> allEntity = coordinates.stream().map(Coordinate::getPosition).collect(Collectors.toSet());
             Set<Integer> targetPositions = getTargets(coordinate.getEntity(), coordinates);
 

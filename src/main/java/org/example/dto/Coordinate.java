@@ -10,12 +10,14 @@ public class Coordinate {
     private int x;
     private int y;
     private int position;
+    private boolean busy;
 
     public Coordinate(TypeEntity type, int widthMap, int numPosition) {
-        this.entity = Entity.createEntity(type);
+        this.entity = Entity.createEntity(type.getClassEntity());
         this.x = calculateX(widthMap, numPosition);
         this.y = calculateY(widthMap, numPosition);
         this.position = numPosition;
+        this.busy = false;
     }
 
     public Coordinate(Class <?> entityClass, int widthMap, int numPosition) {
@@ -23,6 +25,7 @@ public class Coordinate {
         this.x = calculateX(widthMap, numPosition);
         this.y = calculateY(widthMap, numPosition);
         this.position = numPosition;
+        this.busy = false;
     }
 
     private int calculateX(int widthMap, int numPosition) {
@@ -64,5 +67,17 @@ public class Coordinate {
         this.position = position;
         this.x = calculateX(widthMap, position);
         this.y = calculateY(widthMap, position);
+    }
+
+    public boolean isBusy() {
+        return busy;
+    }
+
+    public void setBusy(boolean busy) {
+        this.busy = busy;
+    }
+
+    public void setBusy() {
+        this.busy = true;
     }
 }

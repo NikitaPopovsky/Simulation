@@ -1,5 +1,6 @@
-package org.example;
+package org.example.utils;
 
+import org.example.enums.Constants;
 import org.example.enums.DrawEntity;
 import org.example.dto.Coordinate;
 import org.example.models.Entity;
@@ -18,21 +19,25 @@ public class Render {
 
     //Отрисовывает карту и сущности на ней
     public static void printMap (GameMap gameMap, int countStep) {
-        String [][] gameMapString =  gameMapToString(gameMap);
-        drawPreliminaryData(countStep, gameMap.getWidth());
+        String [][] gameMapString =  gameMapToString();
+        drawPreliminaryData(countStep);
         addDrawEntities(gameMapString, gameMap.getCoordinates());
         for (String [] lineMap : gameMapString) {
             System.out.println(Arrays.deepToString(lineMap));
         }
+        showCommands();
     }
 
     //Выводит разделитель
-    private static void drawPreliminaryData(int countStep, int width) {
-        String separatorLine = ("_").repeat(width*5);
-        System.out.println(separatorLine);
+    private static void drawPreliminaryData(int countStep) {
+        showSplitLine();
         System.out.println("Step: " + countStep);
-        System.out.println(separatorLine);
+        showSplitLine();
 
+    }
+
+    private static void showSplitLine () {
+        System.out.println(("_").repeat(Constants.WIDTH_MAP.getValue()*5));
     }
 
 
@@ -44,9 +49,9 @@ public class Render {
         }
     }
 
-    private static String [][] gameMapToString (GameMap gameMap) {
-        int width = gameMap.getWidth();
-        int height = gameMap.getHeight();
+    private static String [][] gameMapToString () {
+        int width = Constants.WIDTH_MAP.getValue();
+        int height = Constants.HEIGHT_MAP.getValue();
         String[][] gameMapString = new String[width][height];
 
         return fillStartValues(gameMapString);
@@ -72,4 +77,27 @@ public class Render {
     }
 
 
+
+    public static void showStartMessage() {
+        showSplitLine();
+        System.out.println("Добро пожаловать в симуляцию!");
+        showSplitLine();
+        System.out.println("Размер поля 10х10. Количество каждого существа на карте - 5 шт.");
+        System.out.println("Каждый ход добавляются новые существа и трава, если их меньше необходимого количества");
+        System.out.println("Это сделано для баланса. Вы всегда можете самостоятельно поменять в константе данные параметры.");
+        showSplitLine();
+    }
+
+    public static void showCommands () {
+        System.out.println("Доступные команды : Старт симулуляции - S, паузы - P, выход - E");
+    }
+
+
+    public static void showIncorrectCommand() {
+        System.out.println("Неверная команда");
+    }
+
+    public static void showPause() {
+        System.out.println("Симуляция приостановлена");
+    }
 }

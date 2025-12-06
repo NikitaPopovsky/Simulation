@@ -23,7 +23,7 @@ public class CreationEntity extends Action {
     @Override
     public void make() {
         Set<Coordinate> coordinates = getCoordinates();
-        int MinCountEntity = Constants.countEntity.getValue();
+        int MinCountEntity = Constants.COUNT_ENTITY.getValue();
 
         create(Grass.class, coordinates, MinCountEntity);
         create(Herbivore.class, coordinates, MinCountEntity);

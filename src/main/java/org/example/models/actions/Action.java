@@ -22,6 +22,8 @@ public abstract class Action {
 
     //Добавляем действия, повторяющиеся каждый ход
     public static void addTurnActions (Queue<Action> Actions) {
+        //clearStatusBusy();
+        Actions.add(ClearBusyStatus.getInstance());
         Actions.add(InteractToTarget.getInstance());
         Actions.add(MovingToTarget.getInstance());
         Actions.add(CreationEntity.getInstance());
