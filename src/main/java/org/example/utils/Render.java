@@ -89,7 +89,7 @@ public class Render {
     }
 
     public static void showCommands () {
-        System.out.println("Доступные команды : Старт симулуляции - S, паузы - P, выход - E");
+        System.out.println("Доступные команды : Старт симуляции - S, пауза - P, выход - E");
     }
 
 
