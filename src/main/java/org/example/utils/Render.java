@@ -1,8 +1,9 @@
 package org.example.utils;
 
+import org.example.enums.Commands;
 import org.example.enums.Constants;
 import org.example.enums.DrawEntity;
-import org.example.dto.Coordinate;
+import org.example.models.Coordinates;
 import org.example.models.Entity;
 import org.example.models.GameMap;
 import org.example.models.creatures.Herbivore;
@@ -14,38 +15,35 @@ import org.example.models.textures.Tree;
 import java.util.Arrays;
 import java.util.Set;
 
-//Рендер, отрисовывающий объекты в консоль
 public class Render {
 
-    //Отрисовывает карту и сущности на ней
     public static void printMap (GameMap gameMap, int countStep) {
         String [][] gameMapString =  gameMapToString();
-        drawPreliminaryData(countStep);
+        printPreliminaryData(countStep);
         addDrawEntities(gameMapString, gameMap.getCoordinates());
         for (String [] lineMap : gameMapString) {
             System.out.println(Arrays.deepToString(lineMap));
         }
-        showCommands();
+        printCommands();
     }
 
-    //Выводит разделитель
-    private static void drawPreliminaryData(int countStep) {
-        showSplitLine();
+    private static void printPreliminaryData(int countStep) {
+        printSplitLine();
         System.out.println("Step: " + countStep);
-        showSplitLine();
+        printSplitLine();
 
     }
 
-    private static void showSplitLine () {
+    private static void printSplitLine() {
         System.out.println(("_").repeat(Constants.WIDTH_MAP.getValue()*5));
     }
 
 
-    private static void addDrawEntities(String[][] gameMapString, Set<Coordinate> coordinates) {
-        for (Coordinate coordinate : coordinates) {
-            int x = coordinate.getX()-1;
-            int y = coordinate.getY()-1;
-            gameMapString[x][y] = getDrawEntity (coordinate.getEntity());
+    private static void addDrawEntities(String[][] gameMapString, Set<Coordinates> cordinates) {
+        for (Coordinates coordinates : cordinates) {
+            int x = coordinates.x()-1;
+            int y = coordinates.y()-1;
+            gameMapString[x][y] = getDrawEntity (coordinates.getEntity());
         }
     }
 
@@ -64,7 +62,6 @@ public class Render {
         return gameMapString;
     }
 
-    //Получаем рисунок для сущности
     private static String getDrawEntity(Entity entity) {
         return switch (entity) {
             case Herbivore _ -> DrawEntity.HERBIVORE.getValue();
@@ -78,26 +75,29 @@ public class Render {
 
 
 
-    public static void showStartMessage() {
-        showSplitLine();
+    public static void printStartMessage() {
+        printSplitLine();
         System.out.println("Добро пожаловать в симуляцию!");
-        showSplitLine();
+        printSplitLine();
         System.out.println("Размер поля 10х10. Количество каждого существа на карте - 5 шт.");
         System.out.println("Каждый ход добавляются новые существа и трава, если их меньше необходимого количества");
         System.out.println("Это сделано для баланса. Вы всегда можете самостоятельно поменять в константе данные параметры.");
-        showSplitLine();
+        printSplitLine();
     }
 
-    public static void showCommands () {
-        System.out.println("Доступные команды : Старт симуляции - S, пауза - P, выход - E");
+    public static void printCommands() {
+        System.out.printf("Доступные команды : Старт симуляции - %s, пауза - %s, выход - %s  \n",
+                Commands.START.getValue(),
+                Commands.PAUSE.getValue(),
+                Commands.EXIT.getValue());
     }
 
 
-    public static void showIncorrectCommand() {
+    public static void printIncorrectCommand() {
         System.out.println("Неверная команда");
     }
 
-    public static void showPause() {
+    public static void printPause() {
         System.out.println("Симуляция приостановлена");
     }
 }

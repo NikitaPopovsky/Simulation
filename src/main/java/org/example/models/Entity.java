@@ -7,19 +7,6 @@ import org.example.models.textures.Rock;
 import org.example.models.textures.Tree;
 
 public abstract class Entity {
-    public static Entity createEntity(Class<?> entityClass) {
-        if (entityClass == Rock.class) {
-            return new Rock();
-        } else if (entityClass == Tree.class) {
-            return new Tree();
-        } else if (entityClass == Grass.class) {
-            return new Grass();
-        } else if (entityClass == Herbivore.class) {
-            return new Herbivore();
-        } else if (entityClass == Predator.class) {
-            return new Predator();
-        }
-        return null;
-    }
+
 
 }

@@ -16,9 +16,9 @@ public enum Commands {
         return value;
     }
 
-    public static Commands getByValue (String commandString) {
+    public static Commands getByValue (String value) {
         for (Commands com: Commands.values()){
-            if (com.getValue().equals(commandString)) {
+            if (com.getValue().equals(value)) {
                 return com;
             }
         }

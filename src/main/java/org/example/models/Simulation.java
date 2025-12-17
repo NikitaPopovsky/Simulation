@@ -7,7 +7,6 @@ import org.example.models.actions.Action;
 
 import java.util.*;
 
-//Класс симуляции
 public class Simulation {
     private static Simulation instance;
     private final GameMap gameMap;
@@ -28,7 +27,6 @@ public class Simulation {
         actions = new LinkedList<>();
     }
 
-    //Добавляем стартовые и регулярные действия
     private void addAction(){
         if (countStep == 0) {
             Action.addInitActions(actions);
@@ -37,14 +35,12 @@ public class Simulation {
         Action.addTurnActions(actions);
     }
 
-    //Получаем действия и выполняем последовательно
     private void nextTurn(){
         while (!actions.isEmpty()) {
-           actions.poll().make();
+           actions.poll().make(gameMap);
        }
     }
 
-    //Делаем новый ход симуляции
     public void makeStep(){
         addAction();
         nextTurn();
@@ -58,15 +54,14 @@ public class Simulation {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            Render.showPause();
+            Render.printPause();
         }
     }
 
-    //Стартуем симуляцию
     public void startSimulation () {
         Commands command = Commands.EMPTY;
         Thread thread = null;
-        Render.showStartMessage();
+        Render.printStartMessage();
         while (command != Commands.EXIT) {
             command = getCommand();
 
@@ -80,15 +75,14 @@ public class Simulation {
             } else if (command == Commands.EXIT) {
                 continue;
             } else {
-                Render.showIncorrectCommand();
+                Render.printIncorrectCommand();
             }
         }
     }
 
-    //Получаем команду от пользователя
     private Commands getCommand() {
         Scanner scan = new Scanner(System.in);
-        Render.showCommands();
+        Render.printCommands();
         String message = scan.next().toLowerCase();
         return Commands.getByValue(message);
     }

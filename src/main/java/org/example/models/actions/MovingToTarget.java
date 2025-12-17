@@ -1,11 +1,12 @@
 package org.example.models.actions;
 
-import org.example.dto.Coordinate;
+import org.example.models.Coordinates;
+import org.example.models.Entity;
+import org.example.models.GameMap;
 import org.example.models.creatures.Creature;
 import org.example.utils.BreadthFirstSearch;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class MovingToTarget extends Action {
     private static MovingToTarget instance;
@@ -18,44 +19,21 @@ public class MovingToTarget extends Action {
     }
 
     @Override
-    public void make() {
-        Set<Coordinate> coordinates = getCoordinates();
-        Set<Coordinate> creatures = coordinates.stream()
-                .filter(coordinate -> coordinate.getEntity() instanceof Creature).collect(Collectors.toSet());
+    public void make(GameMap gameMap) {
+        Map<Coordinates, Entity> entities = gameMap.getEntityByClass(Creature.class);
 
-        for (Coordinate coordinate : creatures) {
-            if (coordinate.isBusy()) {
-                continue;
-            }
-            Set<Integer> allEntity = coordinates.stream().map(Coordinate::getPosition).collect(Collectors.toSet());
-            Set<Integer> targetPositions = getTargets(coordinate.getEntity(), coordinates);
+        for (Map.Entry<Coordinates, Entity> entity : entities.entrySet()) {
+            Creature creature = (Creature) entity.getValue();
+            Class <? extends Entity> targetClass = creature.getTargetClass();
+            Set<Coordinates> targets = gameMap.getEntityByClass(targetClass).keySet();
 
-            move(coordinate, allEntity, targetPositions);
-        }
-        setCoordinates(coordinates);
-    }
+            Deque<Coordinates> path = BreadthFirstSearch.find(entity.getKey(), targets, gameMap);
 
-
-
-    //Получаем список следующих шагов
-    public Deque<Integer> nextSteps(int startPosition, Set<Integer> allEntity,
-                                    Set<Integer> targetPositions) {
-
-        BreadthFirstSearch bfs = new BreadthFirstSearch(startPosition, targetPositions, allEntity);
-        bfs.searchEndPosition();
-        return bfs.positionsForNextStep();
-    }
-
-    //делаем шаги к цели
-    public void move(Coordinate coordinate, Set<Integer> allEntity, Set<Integer> targetPositions) {
-        if (!targetPositions.isEmpty()) {
-            Deque<Integer> nextSteps = nextSteps(coordinate.getPosition(), allEntity, targetPositions);
-            if (!nextSteps.isEmpty()) {
-                coordinate.setPosition(nextSteps.pollLast());
+            if (!path.isEmpty()) {
+                gameMap.moveEntity(entity.getKey(), path.pollLast());
             }
         }
-
-
     }
+
 }
 
