@@ -4,6 +4,14 @@ import org.example.models.Entity;
 import org.example.models.textures.Grass;
 
 public abstract class Creature extends Entity {
+    private boolean isBusy;
+    private final int speed;
+
+    public Creature(int speed) {
+        this.isBusy = false;
+        this.speed = speed;
+    }
+
     public Class<? extends Entity> getTargetClass () {
         if (this instanceof Herbivore) {
             return Grass.class;
@@ -11,5 +19,21 @@ public abstract class Creature extends Entity {
             return Herbivore.class;
         }
         return null;
+    }
+
+    public boolean isBusy() {
+        return isBusy;
+    }
+
+    public void setBusy() {
+        isBusy = true;
+    }
+
+    public void clearBusy() {
+        isBusy = false;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 }

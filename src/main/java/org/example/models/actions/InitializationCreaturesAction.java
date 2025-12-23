@@ -1,30 +1,17 @@
 package org.example.models.actions;
 
-import org.example.EntityFactory;
-import org.example.models.Coordinates;
 import org.example.enums.Constants;
-import org.example.enums.TypeEntity;
-import org.example.models.Entity;
 import org.example.models.GameMap;
 import org.example.models.creatures.Herbivore;
 import org.example.models.creatures.Predator;
 import org.example.models.textures.Grass;
 import org.example.models.textures.Rock;
 import org.example.models.textures.Tree;
+import org.example.utils.ActionUtil;
 
-import java.util.*;
+public class InitializationCreaturesAction implements Action {
 
-public class InitializationCreatures extends Action {
-    private static InitializationCreatures instance;
-
-    public static InitializationCreatures getInstance() {
-        if (instance == null) {
-            instance = new InitializationCreatures();
-        }
-        return instance;
-    }
-
-    public InitializationCreatures() {
+    public InitializationCreaturesAction() {
     }
 
     @Override

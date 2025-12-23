@@ -1,17 +1,17 @@
-package org.example.models.actions;
+package org.example.utils;
 
-import org.example.EntityFactory;
-import org.example.models.Coordinates;
+import org.example.models.EntityFactory;
+import org.example.models.Coordinate;
 import org.example.models.Entity;
 import org.example.models.GameMap;
 
 public final class ActionUtil {
     public static void spawn(Class<?> entityClass, GameMap gameMap, int maxCount) {
-        int count = 0;
+        int count = 1;
         while (count <= maxCount) {
-            Coordinates coordinates = gameMap.getEmptyCoordinates();
+            Coordinate coordinate = gameMap.getEmptyCoordinates();
             Entity entity = EntityFactory.create(entityClass);
-            gameMap.addEntity(coordinates, entity);
+            gameMap.addEntity(coordinate, entity);
             count++;
         }
 

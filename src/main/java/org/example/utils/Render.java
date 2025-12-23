@@ -3,7 +3,7 @@ package org.example.utils;
 import org.example.enums.Commands;
 import org.example.enums.Constants;
 import org.example.enums.DrawEntity;
-import org.example.models.Coordinates;
+import org.example.models.Coordinate;
 import org.example.models.Entity;
 import org.example.models.GameMap;
 import org.example.models.creatures.Herbivore;
@@ -13,6 +13,7 @@ import org.example.models.textures.Rock;
 import org.example.models.textures.Tree;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
 
 public class Render {
@@ -20,7 +21,7 @@ public class Render {
     public static void printMap (GameMap gameMap, int countStep) {
         String [][] gameMapString =  gameMapToString();
         printPreliminaryData(countStep);
-        addDrawEntities(gameMapString, gameMap.getCoordinates());
+        addDrawEntities(gameMapString, gameMap.getEntityByClass(Entity.class));
         for (String [] lineMap : gameMapString) {
             System.out.println(Arrays.deepToString(lineMap));
         }
@@ -39,11 +40,11 @@ public class Render {
     }
 
 
-    private static void addDrawEntities(String[][] gameMapString, Set<Coordinates> cordinates) {
-        for (Coordinates coordinates : cordinates) {
-            int x = coordinates.x()-1;
-            int y = coordinates.y()-1;
-            gameMapString[x][y] = getDrawEntity (coordinates.getEntity());
+    private static void addDrawEntities(String[][] gameMapString, Map<Coordinate, Entity> entities) {
+        for (Map.Entry <Coordinate, Entity> entity : entities.entrySet()) {
+            int x = entity.getKey().x()-1;
+            int y = entity.getKey().y()-1;
+            gameMapString[x][y] = getDrawEntity (entity.getValue());
         }
     }
 

@@ -1,6 +1,6 @@
-package org.example;
+package org.example.models;
 
-import org.example.models.Entity;
+import org.example.enums.Constants;
 import org.example.models.creatures.Herbivore;
 import org.example.models.creatures.Predator;
 import org.example.models.textures.Grass;
@@ -16,9 +16,9 @@ public final class EntityFactory {
         } else if (entityClass == Grass.class) {
             return new Grass();
         } else if (entityClass == Herbivore.class) {
-            return new Herbivore();
+            return new Herbivore(Constants.SPEED.getValue(), Constants.HEALTH.getValue());
         } else if (entityClass == Predator.class) {
-            return new Predator();
+            return new Predator(Constants.SPEED.getValue(), Constants.POWER.getValue());
         }
         return null;
     }

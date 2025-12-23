@@ -1,6 +1,4 @@
-package org.example.utils;
-
-import org.example.models.Simulation;
+package org.example.models;
 
 public class ThreadSimulation extends Thread{
     private final Simulation simulation;
@@ -8,7 +6,7 @@ public class ThreadSimulation extends Thread{
     @Override
     public void run () {
         while (!this.isInterrupted()) {
-            simulation.makeStep();
+            simulation.nextTurn();
         }
     }
 

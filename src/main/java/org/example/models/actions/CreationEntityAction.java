@@ -1,38 +1,29 @@
 package org.example.models.actions;
 
-import org.example.models.Coordinates;
 import org.example.enums.Constants;
 import org.example.models.GameMap;
 import org.example.models.creatures.Herbivore;
 import org.example.models.textures.Grass;
+import org.example.utils.ActionUtil;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+public class CreationEntityAction implements Action {
 
-public class CreationEntity extends Action {
-    private static CreationEntity instance;
-
-    public static CreationEntity getInstance() {
-        if (instance == null) {
-            instance = new CreationEntity();
-        }
-        return instance;
+    public CreationEntityAction() {
     }
 
     @Override
     public void make(GameMap gameMap) {
         int MinCountEntity = Constants.COUNT_ENTITY.getValue();
 
-        int difference = gameMap.getCountEntityByClass(Grass.class) - MinCountEntity;
+        int difference = MinCountEntity - gameMap.getCountEntityByClass(Grass.class);
         if (difference != 0) {
             ActionUtil.spawn(Grass.class, gameMap, difference);
         }
 
-        difference = gameMap.getCountEntityByClass(Herbivore.class) - MinCountEntity;
+        difference = MinCountEntity - gameMap.getCountEntityByClass(Herbivore.class);
         if (difference != 0) {
             ActionUtil.spawn(Herbivore.class, gameMap, difference);
         }
-
     }
 
 }

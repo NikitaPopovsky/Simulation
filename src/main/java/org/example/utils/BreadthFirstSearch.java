@@ -1,19 +1,18 @@
 package org.example.utils;
 
-import org.example.models.Coordinates;
+import org.example.models.Coordinate;
 import org.example.models.GameMap;
-import org.example.models.GameMapUtil;
 
 import java.util.*;
 
 public final class BreadthFirstSearch {
 
-    public static Deque<Coordinates> find (Coordinates start, Set<Coordinates> targets, GameMap gameMap) {
-        Set<Coordinates> visitedOrBlocked = new HashSet<>();
+    public static Deque<Coordinate> find (Coordinate start, Set<Coordinate> targets, GameMap gameMap) {
+        Set<Coordinate> visitedOrBlocked = new HashSet<>();
         addBlocked(visitedOrBlocked, gameMap);
 
         Queue<Node> queue = new LinkedList<>();
-        queue.add(new Node(start, null));
+        queue.addAll(getNeighbors(new Node(start, null), gameMap));
 
         while (!queue.isEmpty()) {
             Node current = queue.poll();
@@ -22,11 +21,11 @@ public final class BreadthFirstSearch {
                 return backtrack(current);
             }
 
-            if (visitedOrBlocked.contains(current.coordinates())){
+            if (visitedOrBlocked.contains(current.coordinate())){
                 continue;
             }
 
-            visitedOrBlocked.add(current.coordinates());
+            visitedOrBlocked.add(current.coordinate());
             queue.addAll(getNeighbors(current, gameMap));
         }
 
@@ -34,22 +33,22 @@ public final class BreadthFirstSearch {
 
     }
 
-    private static Deque<Coordinates> backtrack(Node finalNode) {
-        Deque<Coordinates> path = new LinkedList<>();
+    private static Deque<Coordinate> backtrack(Node finalNode) {
+        Deque<Coordinate> path = new LinkedList<>();
         Node current = finalNode;
 
         while (current.parent() != null) {
-            path.add(current.coordinates());
+            path.add(current.coordinate());
             current = current.parent();
         }
-
+        path.removeFirst();
         return path;
 
     }
 
     private static Set<Node> getNeighbors(Node current, GameMap gameMap) {
         Set<Node> neighborsNode = new HashSet<>();
-        for (Coordinates neighbor : GameMapUtil.getNeighbors(current.coordinates())) {
+        for (Coordinate neighbor : GameMapUtil.getNeighbors(current.coordinate())) {
             neighborsNode.add(new Node(neighbor, current));
         }
 
@@ -61,7 +60,7 @@ public final class BreadthFirstSearch {
     private static void validateNode(Set<Node> nodes, GameMap gameMap) {
         List<Node> removeNodes = new ArrayList<>();
         for (Node node: nodes) {
-            if (checkValidation(node, gameMap)) {
+            if (!checkValidation(node, gameMap)) {
                 removeNodes.add(node);
             }
         }
@@ -75,15 +74,16 @@ public final class BreadthFirstSearch {
         int width = gameMap.getWidth();
         int height = gameMap.getHeight();
 
-        int x = node.coordinates().x();
-        int y = node.coordinates().y();
+        int x = node.coordinate().x();
+        int y = node.coordinate().y();
         return x >= 1 && x <= width && y >= 1 && y <= height;
     }
-    private static boolean checkTarget(Node current, Set<Coordinates> targets) {
-        return targets.contains(current.coordinates());
+
+    private static boolean checkTarget(Node current, Set<Coordinate> targets) {
+        return targets.contains(current.coordinate());
     }
 
-    private static void addBlocked(Set<Coordinates> visited, GameMap gameMap) {
+    private static void addBlocked(Set<Coordinate> visited, GameMap gameMap) {
         visited.addAll(gameMap.getAllCoordinates());
 
     }

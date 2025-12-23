@@ -1,26 +1,21 @@
 package org.example.models;
 
 import org.example.enums.Constants;
+import org.example.models.creatures.Creature;
+import org.example.models.creatures.Herbivore;
+import org.example.models.creatures.Predator;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameMap {
-    private static GameMap instance;
-    private final HashMap<Coordinates, Entity> entities;
+    private final HashMap<Coordinate, Entity> entities;
     private final int width;
     private final int height;
 
-    public static GameMap getInstance() {
-        if (instance == null) {
-            instance = new GameMap();
-        }
-        return instance;
-    }
-
-    public GameMap() {
-        this.width = Constants.WIDTH_MAP.getValue();
-        this.height = Constants.HEIGHT_MAP.getValue();
+    public GameMap(int width, int height) {
+        this.width = width;
+        this.height = height;
         this.entities = new HashMap<>();
     }
 
@@ -32,41 +27,37 @@ public class GameMap {
         return height;
     }
 
-    public Coordinates getEmptyCoordinates() {
+    public Coordinate getEmptyCoordinates() {
         Random random = new Random();
-        Coordinates coordinates = null;
+        Coordinate coordinate = null;
         do {
             int x = getRandomNum(random, width);
             int y = getRandomNum(random, height);
-            coordinates = new Coordinates(x, y);
-        } while (entities.containsKey(coordinates));
+            coordinate = new Coordinate(x, y);
+        } while (entities.containsKey(coordinate));
 
-        return coordinates;
+        return coordinate;
     }
 
-    private int getRandomNum(Random random, int maxNum) {
-        return random.nextInt(1,maxNum + 1);
-    }
-
-    public void addEntity(Coordinates coordinates, Entity entity) {
-        entities.put(coordinates, entity);
+    public void addEntity(Coordinate coordinate, Entity entity) {
+        entities.put(coordinate, entity);
     }
 
     public int getCountEntityByClass (Class<? extends Entity> entityClass) {
         return (int) entities.values().stream().filter(entityClass::isInstance).count();
     }
 
-    public Map<Coordinates, Entity> getEntityByClass (Class<? extends Entity> entityClass) {
+    public Map<Coordinate, Entity> getEntityByClass (Class<? extends Entity> entityClass) {
         return entities.entrySet().stream()
                 .filter(entry-> entityClass.isInstance(entry.getValue()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public Set<Coordinates> getAllCoordinates () {
+    public Set<Coordinate> getAllCoordinates () {
         return entities.keySet();
     }
 
-    public void moveEntity(Coordinates from, Coordinates to) {
+    public void moveEntity(Coordinate from, Coordinate to) {
         Entity entity = entities.get(from);
 
         if (entity == null) {
@@ -77,9 +68,22 @@ public class GameMap {
         addEntity(to, entity);
     }
 
-    public void removeEntity(Coordinates from) {
+    public void removeEntity(Coordinate from) {
         entities.remove(from);
     }
+
+    public void clearBusyStatus() {
+        for (Map.Entry <Coordinate, Entity> entityEntry : getEntityByClass(Creature.class).entrySet())  {
+            Creature creature = (Creature) entityEntry.getValue();
+            creature.clearBusy();
+        }
+    }
+
+    private int getRandomNum(Random random, int maxNum) {
+        return random.nextInt(1,maxNum + 1);
+    }
+
+
 }
 
 

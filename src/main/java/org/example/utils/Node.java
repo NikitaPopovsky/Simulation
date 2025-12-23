@@ -1,7 +1,7 @@
 package org.example.utils;
 
-import org.example.models.Coordinates;
+import org.example.models.Coordinate;
 
-public record Node (Coordinates coordinates, Node parent)  {
+public record Node (Coordinate coordinate, Node parent)  {
 
 }
