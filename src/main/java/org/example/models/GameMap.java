@@ -1,9 +1,6 @@
 package org.example.models;
 
-import org.example.enums.Constants;
 import org.example.models.creatures.Creature;
-import org.example.models.creatures.Herbivore;
-import org.example.models.creatures.Predator;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -68,8 +65,8 @@ public class GameMap {
         addEntity(to, entity);
     }
 
-    public void removeEntity(Coordinate from) {
-        entities.remove(from);
+    public void removeEntity(Coordinate coordinate) {
+        entities.remove(coordinate);
     }
 
     public void clearBusyStatus() {
@@ -79,11 +76,13 @@ public class GameMap {
         }
     }
 
+    public Entity getEntity(Coordinate coordinate) {
+        return entities.get(coordinate);
+    }
+
     private int getRandomNum(Random random, int maxNum) {
         return random.nextInt(1,maxNum + 1);
     }
-
-
 }
 
 

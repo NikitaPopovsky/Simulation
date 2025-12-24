@@ -8,7 +8,7 @@ import org.example.models.textures.Rock;
 import org.example.models.textures.Tree;
 
 public final class EntityFactory {
-    public static Entity create(Class<?> entityClass) {
+    public static Entity create(Class<? extends Entity>  entityClass) {
         if (entityClass == Rock.class) {
             return new Rock();
         } else if (entityClass == Tree.class) {

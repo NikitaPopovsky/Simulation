@@ -1,4 +1,4 @@
-package org.example.utils;
+package org.example.models.actions;
 
 import org.example.models.EntityFactory;
 import org.example.models.Coordinate;
@@ -6,7 +6,7 @@ import org.example.models.Entity;
 import org.example.models.GameMap;
 
 public final class ActionUtil {
-    public static void spawn(Class<?> entityClass, GameMap gameMap, int maxCount) {
+    public static void spawn(Class<? extends Entity> entityClass, GameMap gameMap, int maxCount) {
         int count = 1;
         while (count <= maxCount) {
             Coordinate coordinate = gameMap.getEmptyCoordinates();

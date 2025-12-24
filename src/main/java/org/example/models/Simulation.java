@@ -1,8 +1,9 @@
 package org.example.models;
 
-import org.example.utils.Render;
+import org.example.utils.RenderMap;
 import org.example.enums.Commands;
 import org.example.models.actions.Action;
+import org.example.utils.RenderMessage;
 
 import java.util.*;
 
@@ -22,7 +23,7 @@ public class Simulation {
     public void startSimulation () {
         Commands command = Commands.EMPTY;
         Thread thread = null;
-        Render.printStartMessage();
+        RenderMessage.printStartMessage(gameMap);
         while (command != Commands.EXIT) {
             command = getCommand();
 
@@ -36,7 +37,7 @@ public class Simulation {
             } else if (command == Commands.EXIT) {
                 continue;
             } else {
-                Render.printIncorrectCommand();
+                RenderMessage.printIncorrectCommand();
             }
         }
     }
@@ -52,7 +53,7 @@ public class Simulation {
         for (Action action: actions) {
             action.make(gameMap);
         }
-        Render.printMap(gameMap, countStep);
+        RenderMap.printMap(gameMap, countStep);
         countStep++;
         waitAfterStep();
     }
@@ -62,13 +63,13 @@ public class Simulation {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            Render.printPause();
+            RenderMessage.printPause();
         }
     }
 
     private Commands getCommand() {
         Scanner scan = new Scanner(System.in);
-        Render.printCommands();
+        RenderMessage.printCommands();
         String message = scan.next().toLowerCase();
         return Commands.getByValue(message);
     }

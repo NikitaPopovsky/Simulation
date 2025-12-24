@@ -4,7 +4,6 @@ import org.example.enums.Constants;
 import org.example.models.GameMap;
 import org.example.models.creatures.Herbivore;
 import org.example.models.textures.Grass;
-import org.example.utils.ActionUtil;
 
 public class CreationEntityAction implements Action {
 

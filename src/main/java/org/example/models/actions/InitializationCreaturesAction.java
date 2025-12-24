@@ -7,7 +7,6 @@ import org.example.models.creatures.Predator;
 import org.example.models.textures.Grass;
 import org.example.models.textures.Rock;
 import org.example.models.textures.Tree;
-import org.example.utils.ActionUtil;
 
 public class InitializationCreaturesAction implements Action {
 
